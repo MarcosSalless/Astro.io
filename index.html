@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Astro.io</title>
+  <link rel="stylesheet" href="src/assets/style.css" />
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="ui">
+    <div class="logo">Astro.io</div>
+    <div class="controls hud-noclick">
+      <span>Mouse: mover</span>
+      <span>Espaço: dividir</span>
+      <span>W: ejetar massa</span>
+      <span>ESC: pausar</span>
+    </div>
+    <div class="hud hud-noclick">
+      <div id="score">Massa: 0</div>
+      <div id="fps">FPS: 0</div>
+      <div id="leaderboard" class="card"></div>
+    </div>
+    <div id="join" class="overlay">
+      <div class="card join-card">
+        <h1>Astro.io</h1>
+        <p>Derrote os bots e suba o placar.</p>
+        <input id="name" placeholder="Seu nome" maxlength="16" />
+        <button id="play">Jogar</button>
+      </div>
+    </div>
+    <div id="paused" class="overlay hidden">
+      <div class="card pause-card">
+        <h2>Pausado</h2>
+        <p>Pressione ESC para continuar.</p>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
