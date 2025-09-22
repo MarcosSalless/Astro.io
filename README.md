@@ -38,9 +38,11 @@ No installation required. Simply open `index.html` in a modern browser to play.
 astro.io/
 ├─ index.html
 └─ src/
-   ├─ style.css
    ├─ assets/
-   │  └─ ... (images, sprites, etc.)
+   │  ├─ css/
+   │  │  └─ style.css
+   │  └─ img/
+   │     └─ ...
    └─ js/
       ├─ collision.js
       ├─ config.js
