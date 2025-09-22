@@ -11,13 +11,13 @@ export function draw() {
     ctx.translate(-camera.x, -camera.y);
 
     ctx.strokeStyle = "#333";
-    for (let x = 0; x < world.w; x += 50) {
+    for (let x = 0; x < world.w; x += 100) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, world.h);
         ctx.stroke();
     }
-    for (let y = 0; y < world.h; y += 50) {
+    for (let y = 0; y < world.h; y += 100) {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(world.w, y);

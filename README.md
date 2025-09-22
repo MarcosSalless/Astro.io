@@ -33,6 +33,23 @@ Astro.io is a browser-based game inspired by Agar.io, developed as a college pro
 No installation required. Simply open `index.html` in a modern browser to play.
 
 ## Project Structure
-- `index.html` — main HTML file with canvas and UI overlays.
-- `style.css` — styles for canvas, HUD, and overlays.
-- `game.js` — main JavaScript file handling gameplay, AI, collisions, rendering, and HUD.
+
+```
+astro.io/
+├─ index.html
+└─ src/
+   ├─ style.css
+   ├─ assets/
+   │  └─ ... (images, sprites, etc.)
+   └─ js/
+      ├─ collision.js
+      ├─ config.js
+      ├─ controls.js
+      ├─ entities.js
+      ├─ gameplay.js
+      ├─ hud.js
+      ├─ loop.js
+      ├─ main.js
+      ├─ render.js
+      └─ world.js
+```

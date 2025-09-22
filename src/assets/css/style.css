@@ -9,7 +9,8 @@ body {
     overflow: hidden;
     /* background: #0b1020; */
     color: #e8ecf3;
-    font-family: Inter, system-ui, Segoe UI, Roboto, Arial
+    font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+    user-select: none;
 }
 
 #game {

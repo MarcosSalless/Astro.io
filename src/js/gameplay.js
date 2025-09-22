@@ -1,4 +1,4 @@
-import { world, clamp } from "./config.js";
+import { world, clamp, UI } from "./config.js";
 import { camera, getMe, setMe, players, getNextId, foods } from "./world.js";
 import { makePlayer } from "./entities.js";
 import { mouse } from "./controls.js";
@@ -11,7 +11,9 @@ export function botName(quantidade) {
 }
 
 export function start(name) {
-    document.getElementById("join").style.display = "none";
+    if (getMe() && getMe().alive) return;
+
+    UI.joinEl.style.display = "none";
     setMe(makePlayer(name, false));
 }
 
@@ -23,27 +25,46 @@ export function movePlayer(p, dt) {
         let tx, ty;
 
         if (p === getMe()) {
-            let wx = (mouse.x - window.innerWidth / 2) / camera.z + camera.x;
-            let wy = (mouse.y - window.innerHeight / 2) / camera.z + camera.y;
-            tx = wx; ty = wy;
+            tx = (mouse.x - window.innerWidth / 2) / camera.z + camera.x;
+            ty = (mouse.y - window.innerHeight / 2) / camera.z + camera.y;
+
+            const dx = tx - c.x;
+            const dy = ty - c.y;
+            const dist = Math.hypot(dx, dy);
+
+            // limites do doppler
+            const maxDist = 100;
+            const minFactor = 0.2;
+            const maxFactor = 1.5
+
+            const factor = Math.min(maxFactor, Math.max(minFactor, dist / maxDist));
+
+            // velocidade
+            const ang = Math.atan2(dy, dx);
+            const baseSpeed = 3000;
+            const sizeFactor = 1 / (c.r * 0.01 + 1);
+            const speed = (baseSpeed * sizeFactor + 200) * factor;
+
+            c.vx += Math.cos(ang) * speed * dt;
+            c.vy += Math.sin(ang) * speed * dt;
         } else if (p.isBot) {
             if (Math.random() < 0.01) {
                 p.target.x = clamp(p.target.x + (Math.random() - 0.5) * 800, 0, world.w);
                 p.target.y = clamp(p.target.y + (Math.random() - 0.5) * 800, 0, world.h);
             }
             tx = p.target.x; ty = p.target.y;
+            const ang = Math.atan2(ty - c.y, tx - c.x);
+            const baseSpeed = 4500;
+            const sizeFactor = 1 / (c.r * 0.01 + 1);
+            const speed = baseSpeed * sizeFactor + 200;
+            c.vx += Math.cos(ang) * speed * dt;
+            c.vy += Math.sin(ang) * speed * dt;
         } else {
             tx = c.x; ty = c.y;
         }
 
-        const ang = Math.atan2(ty - c.y, tx - c.x);
-        const baseSpeed = 4500;
-        const sizeFactor = 1 / (c.r * 0.01 + 1);
-        const speed = baseSpeed * sizeFactor + 200;
-
-        c.vx += Math.cos(ang) * speed * dt;
-        c.vy += Math.sin(ang) * speed * dt;
-        c.vx *= 0.85; c.vy *= 0.85;
+        c.vx *= 0.85;
+        c.vy *= 0.85;
 
         c.x += c.vx * dt;
         c.y += c.vy * dt;
@@ -52,9 +73,9 @@ export function movePlayer(p, dt) {
         c.x = clamp(c.x, pad, world.w - pad);
         c.y = clamp(c.y, pad, world.h - pad);
     }
+
     if (p.mergeCooldown > 0) {
         p.mergeCooldown -= dt;
-
         for (let i = 0; i < p.cells.length; i++) {
             for (let j = i + 1; j < p.cells.length; j++) {
                 const a = p.cells[i];
@@ -67,8 +88,10 @@ export function movePlayer(p, dt) {
                     const overlap = (minDist - d) / d;
                     const fx = dx * overlap * 0.5;
                     const fy = dy * overlap * 0.5;
-                    a.x -= fx; a.y -= fy;
-                    b.x += fx; b.y += fy;
+                    a.x -= fx;
+                    a.y -= fy;
+                    b.x += fx;
+                    b.y += fy;
                 }
             }
         }
@@ -89,7 +112,6 @@ export function movePlayer(p, dt) {
             }
         }
     }
-
 }
 
 export function totalMass(p) {
@@ -131,7 +153,6 @@ export function split(p) {
     p.mergeCooldown = Math.min(19, 3 + m / 500);
 }
 
-
 export function eject(p) {
     const rMin = 20;
     const ejectMass = 30;
@@ -162,4 +183,23 @@ export function eject(p) {
             vy: Math.sin(angle) * 600,
         });
     }
+}
+
+let gameOverTimeout = null;
+
+export function gameOver() {
+    const me = getMe();
+    if (!me) return;
+
+    me.alive = false;
+    me.cells = [];
+
+    UI.joinEl.style.display = "flex"; 
+
+    if (gameOverTimeout) clearTimeout(gameOverTimeout);
+
+    gameOverTimeout = setTimeout(() => {
+        setMe(null);
+        gameOverTimeout = null;
+    }, 1500);
 }
