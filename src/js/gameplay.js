@@ -1,5 +1,5 @@
 import { world, clamp, UI } from "./config.js";
-import { camera, getMe, setMe, players, getNextId, foods } from "./world.js";
+import { camera, getMe, setMe, getNextId, foods } from "./world.js";
 import { makePlayer } from "./entities.js";
 import { mouse } from "./controls.js";
 
@@ -14,7 +14,7 @@ export function start(name) {
     if (getMe() && getMe().alive) return;
 
     UI.joinEl.style.display = "none";
-    setMe(makePlayer(name, false));
+    setMe(makePlayer(name, false, UI.selectedColor));
 }
 
 export const massFromR = (r) => r * r;
