@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astro.io</title>
   <link rel="stylesheet" href="src/assets/css/style.css" />
 </head>
+
 <body>
   <canvas id="game"></canvas>
   <div id="ui">
@@ -26,16 +28,32 @@
         <h1>Astro.io</h1>
         <p>Derrote os bots e suba no placar.</p>
         <input id="name" placeholder="Seu nome" maxlength="16" />
-        <button id="play">Jogar</button>
+        <div class="color-picker">
+          <span>Cor da célula:</span>
+          <div class="color-options">
+            <div class="color-circle" data-color="#6ae388" style="background:#6ae388"></div>
+            <div class="color-circle" data-color="#e3646a" style="background:#e3646a"></div>
+            <div class="color-circle" data-color="#647ae3" style="background:#647ae3"></div>
+            <div class="color-circle" data-color="#e3d76a" style="background:#e3d76a"></div>
+            <div class="color-circle" data-color="#9b6ae3" style="background:#9b6ae3"></div>
+            <div class="color-circle custom-circle" id="customCircle">
+              <img src="src/assets/img/color-wheel.svg" alt="Color Wheeeeeeel">
+            </div>
+            <input type="color" id="customColor" value="#6ae388" style="display:none">
+
+            <div id="selectedColorDisplay"></div>
+
+          </div>
+          <button id="play">Jogar</button>
+        </div>
+      </div>
+      <div id="paused" class="overlay hidden">
+        <div class="card pause-card">
+          <h2>Pausado</h2>
+          <p>Pressione ESC para continuar.</p>
+        </div>
       </div>
     </div>
-    <div id="paused" class="overlay hidden">
-      <div class="card pause-card">
-        <h2>Pausado</h2>
-        <p>Pressione ESC para continuar.</p>
-      </div>
-    </div>
-  </div>
-  <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="src/js/main.js"></script>
 </body>
 </html>
