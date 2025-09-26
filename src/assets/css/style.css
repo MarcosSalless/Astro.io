@@ -21,7 +21,21 @@ body {
 #ui {
     position: fixed;
     inset: 0;
-    /* REMOVIDO pointer-events:none para permitir cliques nas overlays */
+    /* REMOVIDO 'pointer-events:none' para permitir cliques nas overlays */
+}
+
+#selectedColorDisplay {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1.5px solid #ffffff;
+    margin-left: auto; 
+    background: #6ae388;
+    transition: background 0.2s;
+}
+
+#play {
+    margin-top: 10px;
 }
 
 .hud-noclick {
@@ -67,7 +81,7 @@ body {
 }
 
 .card {
-    background: rgba(13, 18, 40, .85);
+    background: rgba(13, 18, 40);
     border: 1px solid rgba(255, 255, 255, .08);
     border-radius: 16px;
     padding: 16px;
@@ -114,7 +128,7 @@ body {
 }
 
 .join-card {
-    max-width: 420px;
+    max-width: 500px;
     width: 92vw;
     text-align: center
 }
@@ -145,8 +159,9 @@ body {
     border: none;
     background: #6ae388;
     color: #072015;
-    font-weight: 700;
-    cursor: pointer
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .small {
@@ -169,4 +184,59 @@ body {
 .hidden {
     display: none !important;
     pointer-events: none !important
+}
+
+.color-picker {
+    margin: 10px 0;
+    text-align: left;
+}
+
+.color-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.1s;
+    background: #6ae388; 
+}
+
+.color-circle:hover {
+    transform: scale(1.1);
+}
+
+.custom-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent; 
+}
+
+.custom-circle img {
+    width: 34.5px; 
+    height: 34.5px;
+    object-fit: contain;
+}
+/* .custom-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+    background: conic-gradient(red, orange, yellow, green, blue, indigo, violet);
+    animation: rotateRainbow 2s linear infinite;
+} */
+
+@keyframes rainbow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
