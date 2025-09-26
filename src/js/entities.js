@@ -18,17 +18,20 @@ export function makeVirus() {
         id,
         x: rand(0, world.w),
         y: rand(0, world.h),
-        r: 30 + rand(-4, 4),
+        r: 60 + rand(-4, 4),
+        angle: rand(0, Math.PI * 2),
     });
 }
 
-export function makePlayer(name, isBot = false) {
+export function makePlayer(name, isBot = false, chosenColor = null) {
     const id = getNextId();
     const p = {
         id,
         name,
         isBot,
-        color: isBot ? `hsl(${Math.floor(rand(0, 360))} 65% 55%)` : "#6ae388",
+        color: isBot 
+            ? `hsl(${Math.floor(rand(0, 360))} 65% 55%)`
+            : (chosenColor || "#6ae388"),
         cells: [],
         score: 0,
         alive: true,
@@ -42,6 +45,7 @@ export function makePlayer(name, isBot = false) {
         r: 25,
         vx: 0,
         vy: 0,
+        color: p.color,
     });
     players.set(id, p);
     return p;

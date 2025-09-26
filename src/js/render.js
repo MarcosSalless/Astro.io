@@ -1,6 +1,11 @@
 import { ctx, W, H, TAU, world } from "./config.js";
 import { foods, viruses, players, camera } from "./world.js";
 
+const virusImg = new Image();
+virusImg.src = "src/assets/img/virus1.png";
+let virusReady = false;
+virusImg.onload = () => { virusReady = true; };
+
 export function draw() {
     ctx.fillStyle = "#111";
     ctx.fillRect(0, 0, W, H);
@@ -10,6 +15,7 @@ export function draw() {
     ctx.scale(camera.z, camera.z);
     ctx.translate(-camera.x, -camera.y);
 
+    // grade de back
     ctx.strokeStyle = "#333";
     for (let x = 0; x < world.w; x += 100) {
         ctx.beginPath();
@@ -24,6 +30,7 @@ export function draw() {
         ctx.stroke();
     }
 
+    // foooooooooods
     for (const f of foods.values()) {
         ctx.fillStyle = f.color;
         ctx.beginPath();
@@ -31,13 +38,21 @@ export function draw() {
         ctx.fill();
     }
 
-    ctx.fillStyle = "#33aa33";
-    for (const v of viruses.values()) {
-        ctx.beginPath();
-        ctx.arc(v.x, v.y, v.r, 0, TAU);
-        ctx.fill();
+    // virus 
+    if (virusReady) {
+        for (const v of viruses.values()) {
+            if (!("angle" in v)) v.angle = 0; 
+            v.angle += 0.005;
+
+            ctx.save();
+            ctx.translate(v.x, v.y);
+            ctx.rotate(v.angle);
+            ctx.drawImage(virusImg, -v.r, -v.r, v.r * 2, v.r * 2);
+            ctx.restore();
+        }
     }
 
+    // palyers
     for (const p of players.values()) {
         if (!p.alive) continue;
         ctx.fillStyle = p.color;
@@ -54,5 +69,6 @@ export function draw() {
             ctx.fillText(p.name, main.x, main.y + main.r + 20);
         }
     }
+
     ctx.restore();
 }
