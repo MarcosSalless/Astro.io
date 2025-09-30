@@ -9,5 +9,4 @@ const qtdBots = Math.min(world.bots, 20);
 const nomesBots = botName(qtdBots);
 for (let i = 0; i < qtdBots; i++) makePlayer(nomesBots[i], true);
 
-UI.pausedEl.classList.add("hidden");
 requestAnimationFrame(tick);

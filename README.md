@@ -13,7 +13,6 @@ Astro.io is a browser-based game inspired by Agar.io, developed as a college pro
 - Real-time leaderboard displaying top players
 - Dynamic camera zoom based on player size
 - Responsive HUD showing score and FPS
-- Pause functionality (ESC key)
 
 ## Technologies
 - HTML5 Canvas
@@ -27,7 +26,6 @@ Astro.io is a browser-based game inspired by Agar.io, developed as a college pro
 4. Press **Spacebar** to split your cell.
 5. Press **W** to eject mass.
 6. Avoid viruses and larger cells, and try to grow bigger than the bots.
-7. Press **ESC** to pause or resume the game.
 
 ## Setup
 No installation required. Simply open `index.html` in a modern browser to play.

@@ -1,4 +1,4 @@
-import { players, camera, getMe, isPaused, foods } from "./world.js";
+import { players, camera, getMe, foods } from "./world.js";
 import { movePlayer, gameOver } from "./gameplay.js";
 import { handleCollisions } from "./collisions.js";
 import { draw } from "./render.js";
@@ -13,7 +13,6 @@ export function tick(now) {
     const dt = (now - last) / 1000;
     last = now;
 
-    if (!isPaused()) {
         for (const p of players.values()) if (p.alive) movePlayer(p, dt);
         handleCollisions();
 
@@ -25,18 +24,6 @@ export function tick(now) {
                 f.vy *= 0.9;
             }
         }
-    }
-
-    // const me = getMe();
-    // if (me) {
-    //     const mc = me.cells[0];
-    //     if (mc) {
-    //         camera.x += (mc.x - camera.x) * 0.1;
-    //         camera.y += (mc.y - camera.y) * 0.1;
-    //         camera.targetZ = clamp(1.5 - mc.r / 500, 0.3, 1.5);
-    //         camera.z += (camera.targetZ - camera.z) * 0.1;
-    //     }
-    // }
 
     const me = getMe();
     if (me && me.cells.length > 0) {

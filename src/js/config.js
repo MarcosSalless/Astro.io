@@ -16,12 +16,9 @@ export const UI = {
     fpsEl: document.getElementById("fps"),
     lbEl: document.getElementById("leaderboard"),
     joinEl: document.getElementById("join"),
-    pausedEl: document.getElementById("paused"),
     playBtn: document.getElementById("play"),
     nameInput: document.getElementById("name"),
 };
-
-UI.pausedEl.classList.add("hidden");
 
 export const world = {
     w: 4500,

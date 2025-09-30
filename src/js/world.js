@@ -8,7 +8,6 @@ export const players = new Map();
 
 export let idSeq = 1;
 let me = null;
-let paused = false;
 
 export function getNextId() {
   return idSeq++;
@@ -17,5 +16,3 @@ export function getNextId() {
 export function setMe(p) { me = p; }
 export function getMe() { return me; }
 
-export function setPaused(val) { paused = val; }
-export function isPaused() { return paused; }
