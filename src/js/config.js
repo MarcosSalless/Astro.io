@@ -24,10 +24,10 @@ export const UI = {
 UI.pausedEl.classList.add("hidden");
 
 export const world = {
-    w: 6000,
-    h: 6000,
+    w: 4500,
+    h: 4500,
     foodCount: 1500,
-    virusCount: 30,
+    virusCount: 10,
     bots: 25,
 };
 
