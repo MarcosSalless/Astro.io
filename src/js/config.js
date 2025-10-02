@@ -21,11 +21,11 @@ export const UI = {
 };
 
 export const world = {
-    w: 4500, 
-    h: 4500, 
-    foodCount: 1500,
-    virusCount: 10,
-    bots: 25, 
+    w: 1000, //4500
+    h: 1000, //4500
+    foodCount: 1500, //1500
+    virusCount: 0, //10
+    bots: 1, //25
 };
 
 // helpers
