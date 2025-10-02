@@ -1,5 +1,5 @@
 import { players, camera, getMe, foods } from "./world.js";
-import { movePlayer, gameOver } from "./gameplay.js";
+import { movePlayer, gameOver, respawnBots } from "./gameplay.js";
 import { handleCollisions } from "./collisions.js";
 import { draw } from "./render.js";
 import { updateHUD } from "./hud.js";
@@ -13,17 +13,18 @@ export function tick(now) {
     const dt = (now - last) / 1000;
     last = now;
 
-        for (const p of players.values()) if (p.alive) movePlayer(p, dt);
-        handleCollisions();
+    for (const p of players.values()) if (p.alive) movePlayer(p, dt);
+    handleCollisions();
 
-        for (const f of foods.values()) {
-            if (f.isEjected) {
-                f.x += f.vx * dt;
-                f.y += f.vy * dt;
-                f.vx *= 0.9;
-                f.vy *= 0.9;
-            }
+    for (const f of foods.values()) {
+        if (f.isEjected) {
+            f.x += f.vx * dt;
+            f.y += f.vy * dt;
+            f.vx *= 0.9;
+            f.vy *= 0.9;
         }
+    }
+    respawnBots(performance.now());
 
     const me = getMe();
     if (me && me.cells.length > 0) {
@@ -37,7 +38,6 @@ export function tick(now) {
     if (me && me.cells.length === 0) {
         gameOver();
     }
-
 
     draw();
     updateHUD(dt);
