@@ -15,9 +15,8 @@ export function start(name) {
 
     UI.joinEl.style.display = "none";
 
-    const me = makePlayer(name, false, UI.selectedColor);
+    const me = makePlayer(name, false, UI.selectedColor, UI.selectedBorderColor);
 
-    // safe spawn também pro player
     const pos = getSafePosition(me.cells[0].r);
     me.cells[0].x = pos.x;
     me.cells[0].y = pos.y;
@@ -154,6 +153,8 @@ export function split(p) {
             r: rFromMass(newMass),
             vx: Math.cos(ang) * launchSpeed,
             vy: Math.sin(ang) * launchSpeed,
+            color: p.color,
+            borderColor: p.borderColor, 
         });
     }
 
@@ -197,7 +198,7 @@ let gameOverTimeout = null;
 
 export function getSafePosition(radius) {
     let tries = 0;
-    while (tries < 200) { // aumentei as tentativas pra ser mais robusto
+    while (tries < 200) { 
         const x = Math.random() * world.w;
         const y = Math.random() * world.h;
         let safe = true;
@@ -233,7 +234,12 @@ export function respawnBots(now) {
     for (const info of toRespawn) {
         players.delete(info.id);
 
-        const newBot = makePlayer(info.name, true, info.color);
+        const newBot = makePlayer(
+            info.name,
+            true,
+            info.color,
+            info.borderColor || "#ffffff"
+        );
 
         const pos = getSafePosition(newBot.cells[0].r);
         newBot.cells[0].x = pos.x;

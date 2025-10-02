@@ -41,7 +41,7 @@ export function draw() {
     // virus 
     if (virusReady) {
         for (const v of viruses.values()) {
-            if (!("angle" in v)) v.angle = 0; 
+            if (!("angle" in v)) v.angle = 0;
             v.angle += 0.005;
 
             ctx.save();
@@ -52,15 +52,24 @@ export function draw() {
         }
     }
 
-    // palyers
+    // players
     for (const p of players.values()) {
         if (!p.alive) continue;
-        ctx.fillStyle = p.color;
+
         for (const c of p.cells) {
             ctx.beginPath();
             ctx.arc(c.x, c.y, c.r, 0, TAU);
+
+            ctx.fillStyle = p.color;
             ctx.fill();
+
+            if (c.borderColor) {
+                ctx.lineWidth = Math.min(3, Math.max(1, c.r * 0.05));
+                ctx.strokeStyle = c.borderColor;
+                ctx.stroke();
+            }
         }
+
         const main = p.cells[0];
         if (main) {
             ctx.fillStyle = "#fff";

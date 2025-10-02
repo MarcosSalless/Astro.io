@@ -29,24 +29,36 @@
         <input id="name" placeholder="Seu nome" maxlength="16" />
         <div class="color-picker">
           <span>Cor da célula:</span>
-          <div class="color-options">
+          <div class="color-options" id="cellColorOptions">
             <div class="color-circle" data-color="#6ae388" style="background:#6ae388"></div>
             <div class="color-circle" data-color="#e3646a" style="background:#e3646a"></div>
             <div class="color-circle" data-color="#647ae3" style="background:#647ae3"></div>
-            <div class="color-circle" data-color="#e3d76a" style="background:#e3d76a"></div>
-            <div class="color-circle" data-color="#9b6ae3" style="background:#9b6ae3"></div>
-            <div class="color-circle custom-circle" id="customCircle">
-              <img src="src/assets/img/color-wheel.svg" alt="Color Wheeeeeeel">
+            <div class="color-circle custom-circle" id="cellCustomCircle">
+              <img src="src/assets/img/color-wheel.svg" alt="Color Wheel">
             </div>
-            <input type="color" id="customColor" value="#6ae388" style="display:none">
-
-            <div id="selectedColorDisplay"></div>
-
+            <input type="color" id="cellCustomColor" value="#6ae388" style="display:none">
+            <div id="cellSelectedColorDisplay"></div>
           </div>
-          <button id="play">Jogar</button>
         </div>
+
+        <div class="color-picker">
+          <span>Cor da borda:</span>
+          <div class="color-options" id="borderColorOptions">
+            <div class="color-circle" data-color="#ffffff" style="background:#ffffff"></div>
+            <div class="color-circle" data-color="#e3e3e3" style="background:#817b7b"></div>
+            <div class="color-circle" data-color="#000000" style="background:#000000"></div>
+            <div class="color-circle custom-circle" id="borderCustomCircle">
+              <img src="src/assets/img/color-wheel.svg" alt="Color Wheel">
+            </div>
+            <input type="color" id="borderCustomColor" value="#ffffff" style="display:none">
+            <div id="borderSelectedColorDisplay"></div>
+          </div>
+        </div>
+        <button id="play">Jogar</button>
       </div>
     </div>
-    <script type="module" src="src/js/main.js"></script>
+  </div>
+  <script type="module" src="src/js/main.js"></script>
 </body>
+
 </html>

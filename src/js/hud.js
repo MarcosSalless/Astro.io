@@ -17,35 +17,61 @@ export function updateHUD() {
         .join("<br>");
 }
 
-// cor de las bolotas
 UI.selectedColor = "#6ae388";
+UI.selectedBorderColor = "#ffffff";
 
-const colorCircles = document.querySelectorAll(".color-circle");
-const customCircle = document.getElementById("customCircle");
-const customColorInput = document.getElementById("customColor");
-const selectedColorDisplay = document.getElementById("selectedColorDisplay");
+document.addEventListener("DOMContentLoaded", () => {
+    const cellColorCircles = document.querySelectorAll("#cellColorOptions .color-circle");
+    const cellCustomCircle = document.getElementById("cellCustomCircle");
+    const cellCustomColorInput = document.getElementById("cellCustomColor");
+    const cellSelectedColorDisplay = document.getElementById("cellSelectedColorDisplay");
 
-function updateSelectedColor(color) {
-    UI.selectedColor = color;
-    selectedColorDisplay.style.background = color;
-}
+    function updateSelectedCellColor(color) {
+        UI.selectedColor = color;
+        cellSelectedColorDisplay.style.background = color;
+    }
 
-colorCircles.forEach(circle => {
-    if (circle === customCircle) return;
-
-    circle.addEventListener("click", () => {
-        colorCircles.forEach(c => c.classList.remove("selected"));
-        circle.classList.add("selected");
-        updateSelectedColor(circle.dataset.color);
+    cellColorCircles.forEach(circle => {
+        if (circle === cellCustomCircle) return;
+        circle.addEventListener("click", () => {
+            cellColorCircles.forEach(c => c.classList.remove("selected"));
+            circle.classList.add("selected");
+            updateSelectedCellColor(circle.dataset.color);
+        });
     });
-});
 
-// picker das bolota
-customCircle.addEventListener("click", () => customColorInput.click());
+    cellCustomCircle.addEventListener("click", () => cellCustomColorInput.click());
 
-// picker custom das bola 
-customColorInput.addEventListener("input", e => {
-    colorCircles.forEach(c => c.classList.remove("selected"));
-    customCircle.classList.add("selected");
-    updateSelectedColor(e.target.value);
+    cellCustomColorInput.addEventListener("input", e => {
+        cellColorCircles.forEach(c => c.classList.remove("selected"));
+        cellCustomCircle.classList.add("selected");
+        updateSelectedCellColor(e.target.value);
+    });
+
+    const borderColorCircles = document.querySelectorAll("#borderColorOptions .color-circle");
+    const borderCustomCircle = document.getElementById("borderCustomCircle");
+    const borderCustomColorInput = document.getElementById("borderCustomColor");
+    const borderSelectedColorDisplay = document.getElementById("borderSelectedColorDisplay");
+
+    function updateSelectedBorderColor(color) {
+        UI.selectedBorderColor = color;
+        borderSelectedColorDisplay.style.background = color;
+    }
+
+    borderColorCircles.forEach(circle => {
+        if (circle === borderCustomCircle) return;
+        circle.addEventListener("click", () => {
+            borderColorCircles.forEach(c => c.classList.remove("selected"));
+            circle.classList.add("selected");
+            updateSelectedBorderColor(circle.dataset.color);
+        });
+    });
+
+    borderCustomCircle.addEventListener("click", () => borderCustomColorInput.click());
+
+    borderCustomColorInput.addEventListener("input", e => {
+        borderColorCircles.forEach(c => c.classList.remove("selected"));
+        borderCustomCircle.classList.add("selected");
+        updateSelectedBorderColor(e.target.value);
+    });
 });
