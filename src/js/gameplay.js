@@ -1,5 +1,5 @@
 import { world, clamp, UI } from "./config.js";
-import { camera, getMe, setMe, getNextId, foods } from "./world.js";
+import { camera, getMe, setMe, getNextId, foods, players } from "./world.js";
 import { makePlayer } from "./entities.js";
 import { mouse } from "./controls.js";
 
@@ -14,7 +14,15 @@ export function start(name) {
     if (getMe() && getMe().alive) return;
 
     UI.joinEl.style.display = "none";
-    setMe(makePlayer(name, false, UI.selectedColor));
+
+    const me = makePlayer(name, false, UI.selectedColor);
+
+    // safe spawn também pro player
+    const pos = getSafePosition(me.cells[0].r);
+    me.cells[0].x = pos.x;
+    me.cells[0].y = pos.y;
+
+    setMe(me);
 }
 
 export const massFromR = (r) => r * r;
@@ -187,6 +195,71 @@ export function eject(p) {
 
 let gameOverTimeout = null;
 
+export function getSafePosition(radius) {
+    let tries = 0;
+    while (tries < 200) { // aumentei as tentativas pra ser mais robusto
+        const x = Math.random() * world.w;
+        const y = Math.random() * world.h;
+        let safe = true;
+
+        for (const p of players.values()) {
+            for (const c of p.cells) {
+                const dx = c.x - x;
+                const dy = c.y - y;
+                if (Math.hypot(dx, dy) < c.r + radius + 100) {
+                    safe = false;
+                    break;
+                }
+            }
+            if (!safe) break;
+        }
+
+        if (safe) return { x, y };
+        tries++;
+    }
+
+    return { x: Math.random() * world.w, y: Math.random() * world.h };
+}
+
+const RESPAWN_DELAY = 3000;
+
+export function respawnBots(now) {
+    for (const bot of players.values()) {
+        if (bot.isBot && !bot.alive && now - bot.deadTime > 3000) {
+            bot.alive = true;
+            bot.cells = [makeCell(bot)];
+            
+            const pos = getSafePosition(bot.cells[0].r);
+            bot.cells[0].x = pos.x;
+            bot.cells[0].y = pos.y;
+        }
+    }
+
+    const toRespawn = [];
+    for (const [id, p] of players.entries()) {
+        if (p.isBot && !p.alive && p.respawnAt && p.respawnAt <= now) {
+            toRespawn.push({ id, name: p.name, color: p.color });
+        }
+    }
+
+    for (const info of toRespawn) {
+        players.delete(info.id);
+
+        const newBot = makePlayer(info.name, true, info.color);
+
+        const pos = getSafePosition(newBot.cells[0].r);
+        newBot.cells[0].x = pos.x;
+        newBot.cells[0].y = pos.y;
+
+        if (newBot.respawnAt) delete newBot.respawnAt;
+
+        newBot.alive = true;
+        newBot.mergeCooldown = 2;
+
+        players.set(newBot.id, newBot);
+    }
+}
+
 export function gameOver() {
     const me = getMe();
     if (!me) return;
@@ -194,12 +267,12 @@ export function gameOver() {
     me.alive = false;
     me.cells = [];
 
-    UI.joinEl.style.display = "flex"; 
+    players.delete(me.id);
+
+    UI.joinEl.style.display = "flex";
 
     if (gameOverTimeout) clearTimeout(gameOverTimeout);
 
-    gameOverTimeout = setTimeout(() => {
-        setMe(null);
-        gameOverTimeout = null;
-    }, 1500);
+    setMe(null);
+    gameOverTimeout = null;
 }
