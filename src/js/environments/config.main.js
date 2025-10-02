@@ -1,0 +1,38 @@
+export const TAU = Math.PI * 2;
+
+export const canvas = document.getElementById("game");
+export const ctx = canvas.getContext("2d");
+
+export let W = (canvas.width = window.innerWidth);
+export let H = (canvas.height = window.innerHeight);
+
+window.addEventListener("resize", () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+});
+
+export const UI = {
+    scoreEl: document.getElementById("score"),
+    fpsEl: document.getElementById("fps"),
+    lbEl: document.getElementById("leaderboard"),
+    joinEl: document.getElementById("join"),
+    playBtn: document.getElementById("play"),
+    nameInput: document.getElementById("name"),
+};
+
+export const world = {
+    w: 4500,
+    h: 4500,
+    foodCount: 1500,
+    virusCount: 10,
+    bots: 25,
+};
+
+// helpers
+export const rand = (a, b) => Math.random() * (b - a) + a;
+export const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+export const dist2 = (a, b) => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return dx * dx + dy * dy;
+};

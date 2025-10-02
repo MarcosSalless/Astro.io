@@ -1,38 +1,15 @@
-export const TAU = Math.PI * 2;
+let devMode = true;
 
-export const canvas = document.getElementById("game");
-export const ctx = canvas.getContext("2d");
+import * as mainConfig from './environments/config.main.js';
+import * as devConfig from './environments/config.dev.js';
 
-export let W = (canvas.width = window.innerWidth);
-export let H = (canvas.height = window.innerHeight);
-
-window.addEventListener("resize", () => {
-    W = canvas.width = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-});
-
-export const UI = {
-    scoreEl: document.getElementById("score"),
-    fpsEl: document.getElementById("fps"),
-    lbEl: document.getElementById("leaderboard"),
-    joinEl: document.getElementById("join"),
-    playBtn: document.getElementById("play"),
-    nameInput: document.getElementById("name"),
-};
-
-export const world = {
-    w: 1000, //4500
-    h: 1000, //4500
-    foodCount: 1500, //1500
-    virusCount: 0, //10
-    bots: 1, //25
-};
-
-// helpers
-export const rand = (a, b) => Math.random() * (b - a) + a;
-export const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
-export const dist2 = (a, b) => {
-    const dx = a.x - b.x;
-    const dy = a.y - b.y;
-    return dx * dx + dy * dy;
-};
+export const world = devMode ? devConfig.world : mainConfig.world;
+export const TAU = devMode ? devConfig.TAU : mainConfig.TAU;
+export const canvas = devMode ? devConfig.canvas : mainConfig.canvas;
+export const ctx = devMode ? devConfig.ctx : mainConfig.ctx;
+export let W = devMode ? devConfig.W : mainConfig.W;
+export let H = devMode ? devConfig.H : mainConfig.H;
+export const UI = devMode ? devConfig.UI : mainConfig.UI;
+export const rand = devMode ? devConfig.rand : mainConfig.rand;
+export const clamp = devMode ? devConfig.clamp : mainConfig.clamp;
+export const dist2 = devMode ? devConfig.dist2 : mainConfig.dist2;
