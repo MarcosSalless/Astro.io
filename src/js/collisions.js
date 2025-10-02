@@ -37,7 +37,13 @@ export function handleCollisions() {
                     if (Math.hypot(c.x - d.x, c.y - d.y) < c.r && c.r > d.r * 1.15) {
                         c.r = rFromMass(massFromR(c.r) + massFromR(d.r));
                         q.cells.splice(q.cells.indexOf(d), 1);
-                        if (q.cells.length === 0) q.alive = false;
+                        if (q.cells.length === 0) {
+                            q.alive = false;
+
+                            if (q.isBot && !q.respawnAt) {
+                                q.respawnAt = performance.now() + 1500;
+                            }
+                        }
                     }
                 }
             }

@@ -221,21 +221,9 @@ export function getSafePosition(radius) {
     return { x: Math.random() * world.w, y: Math.random() * world.h };
 }
 
-const RESPAWN_DELAY = 3000;
-
 export function respawnBots(now) {
-    for (const bot of players.values()) {
-        if (bot.isBot && !bot.alive && now - bot.deadTime > 3000) {
-            bot.alive = true;
-            bot.cells = [makeCell(bot)];
-            
-            const pos = getSafePosition(bot.cells[0].r);
-            bot.cells[0].x = pos.x;
-            bot.cells[0].y = pos.y;
-        }
-    }
-
     const toRespawn = [];
+
     for (const [id, p] of players.entries()) {
         if (p.isBot && !p.alive && p.respawnAt && p.respawnAt <= now) {
             toRespawn.push({ id, name: p.name, color: p.color });
@@ -250,8 +238,6 @@ export function respawnBots(now) {
         const pos = getSafePosition(newBot.cells[0].r);
         newBot.cells[0].x = pos.x;
         newBot.cells[0].y = pos.y;
-
-        if (newBot.respawnAt) delete newBot.respawnAt;
 
         newBot.alive = true;
         newBot.mergeCooldown = 2;
