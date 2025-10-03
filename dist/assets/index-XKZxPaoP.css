@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    color: #e8ecf3;
+    font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+    -webkit-user-select: none;
+    user-select: none
+}
+
+#game,
+#ui {
+    position: fixed;
+    inset: 0
+}
+
+#cellSelectedColorDisplay,
+#borderSelectedColorDisplay {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    border: 1.5px solid #ffffff;
+    margin-left: auto;
+    background: #6ae388;
+    transition: background .2s
+}
+
+#play {
+    margin-top: 10px
+}
+
+.hud-noclick {
+    pointer-events: none
+}
+
+.logo {
+    position: fixed;
+    left: 16px;
+    top: 12px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    opacity: .85
+}
+
+.controls {
+    position: fixed;
+    left: 16px;
+    top: 40px;
+    display: flex;
+    gap: 12px;
+    font-size: 12px;
+    opacity: .7
+}
+
+.hud {
+    position: fixed;
+    right: 16px;
+    top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end
+}
+
+#score,
+#fps {
+    background: #ffffff0f;
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    padding: 6px 10px;
+    border-radius: 10px;
+    font-size: 12px
+}
+
+.card {
+    background: #0d1228;
+    border: 1px solid rgba(255, 255, 255, .08);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 10px 30px #0000004d
+}
+
+#leaderboard {
+    min-width: 200px;
+    max-width: 240px
+}
+
+#leaderboard h3 {
+    margin: .2rem 0 .5rem;
+    font-size: 14px;
+    opacity: .9
+}
+
+#leaderboard ol {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    line-height: 1.45
+}
+
+#leaderboard li {
+    padding: 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+#join {
+    background-color: transparent;
+    z-index: 10;
+    pointer-events: auto
+}
+
+.join-card {
+    max-width: 500px;
+    width: 92vw;
+    text-align: center
+}
+
+.join-card h1 {
+    margin: .2rem 0 0
+}
+
+.join-card p {
+    opacity: .8
+}
+
+.join-card input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    background: #ffffff0a;
+    color: #e8ecf3;
+    outline: none;
+    margin: 6px 0 10px
+}
+
+.join-card button {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: none;
+    background: #6ae388;
+    color: #072015;
+    font-weight: 800;
+    cursor: pointer;
+    font-size: 16px
+}
+
+.small {
+    font-size: 12px;
+    opacity: .6
+}
+
+.hidden {
+    display: none !important;
+    pointer-events: none !important
+}
+
+.color-picker {
+    margin: 10px 0;
+    text-align: left
+}
+
+.color-options {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px
+}
+
+.color-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform .1s;
+    background: #6ae388
+}
+
+.color-circle:hover {
+    transform: scale(1.1)
+}
+
+.custom-circle {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent
+}
+
+.custom-circle img {
+    width: 34.5px;
+    height: 34.5px;
+    object-fit: contain
+}
+
+@keyframes rainbow {
+    0% {
+        background-position: 0% 50%
+    }
+
+    to {
+        background-position: 100% 50%
+    }
+}

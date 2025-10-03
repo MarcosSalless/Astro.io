@@ -1,15 +1,38 @@
-let devMode = true;
+export const TAU = Math.PI * 2;
 
-import * as mainConfig from './environments/config.main.js';
-import * as devConfig from './environments/config.dev.js';
+export const canvas = document.getElementById("game");
+export const ctx = canvas.getContext("2d");
 
-export const world = devMode ? devConfig.world : mainConfig.world;
-export const TAU = devMode ? devConfig.TAU : mainConfig.TAU;
-export const canvas = devMode ? devConfig.canvas : mainConfig.canvas;
-export const ctx = devMode ? devConfig.ctx : mainConfig.ctx;
-export let W = devMode ? devConfig.W : mainConfig.W;
-export let H = devMode ? devConfig.H : mainConfig.H;
-export const UI = devMode ? devConfig.UI : mainConfig.UI;
-export const rand = devMode ? devConfig.rand : mainConfig.rand;
-export const clamp = devMode ? devConfig.clamp : mainConfig.clamp;
-export const dist2 = devMode ? devConfig.dist2 : mainConfig.dist2;
+export let W = (canvas.width = window.innerWidth);
+export let H = (canvas.height = window.innerHeight);
+
+window.addEventListener("resize", () => {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+});
+
+export const UI = {
+    scoreEl: document.getElementById("score"),
+    fpsEl: document.getElementById("fps"),
+    lbEl: document.getElementById("leaderboard"),
+    joinEl: document.getElementById("join"),
+    playBtn: document.getElementById("play"),
+    nameInput: document.getElementById("name"),
+};
+
+export const world = {
+    w: parseInt(import.meta.env.VITE_WORLD_W),
+    h: parseInt(import.meta.env.VITE_WORLD_H),
+    foodCount: parseInt(import.meta.env.VITE_WORLD_FOOD),
+    virusCount: parseInt(import.meta.env.VITE_WORLD_VIRUS),
+    bots: parseInt(import.meta.env.VITE_WORLD_BOTS),
+};
+
+// helpers
+export const rand = (a, b) => Math.random() * (b - a) + a;
+export const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+export const dist2 = (a, b) => {
+    const dx = a.x - b.x;
+    const dy = a.y - b.y;
+    return dx * dx + dy * dy;
+};
