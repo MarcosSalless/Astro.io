@@ -1,5 +1,6 @@
 import { world, rand } from "./config.js";
 import { foods, viruses, players, getNextId } from "./world.js";
+import { massFromR, rFromMass, } from "./gameplay.js";
 
 const botBorderColors = [
     "#ffffff", "#ff6b6b", "#4ecdc4", "#45b7d1", "#f9ca24",
@@ -39,12 +40,10 @@ export function makePlayer(name, isBot = false, chosenColor = null, borderColor 
 
     if (isBot) {
         const availableColors = botBorderColors.filter(c => !usedBorderColors.has(c));
-
         if (availableColors.length === 0) {
             usedBorderColors.clear();
             availableColors.push(...botBorderColors);
         }
-
         finalBorderColor = availableColors[Math.floor(Math.random() * availableColors.length)];
         usedBorderColors.add(finalBorderColor);
     }
@@ -53,9 +52,7 @@ export function makePlayer(name, isBot = false, chosenColor = null, borderColor 
         id,
         name,
         isBot,
-        color: isBot
-            ? `hsl(${Math.floor(rand(0, 360))} 65% 55%)`
-            : (chosenColor || "#6ae388"),
+        color: isBot ? `hsl(${Math.floor(rand(0, 360))} 65% 55%)` : (chosenColor || "#6ae388"),
         borderColor: finalBorderColor,
         cells: [],
         score: 0,
@@ -64,19 +61,55 @@ export function makePlayer(name, isBot = false, chosenColor = null, borderColor 
         mergeCooldown: 0,
     };
 
-    p.cells.push({
+    const baseR = 25;
+    const cell = {
         id: getNextId(),
         x: rand(world.w * 0.25, world.w * 0.75),
         y: rand(world.h * 0.25, world.h * 0.75),
-        r: 25,
+        r: baseR,
         vx: 0,
         vy: 0,
         color: p.color,
         borderColor: p.borderColor,
-    });
+        vertices: []
+    };
 
+    const NUM_VERTICES = 32
+    const angleStep = (Math.PI * 2) / NUM_VERTICES;
+
+    for (let i = 0; i < NUM_VERTICES; i++) {
+        const angle = i * angleStep;
+        cell.vertices.push({
+            angle,
+            r: baseR,
+            x: cell.x + Math.cos(angle) * baseR,
+            y: cell.y + Math.sin(angle) * baseR,
+            vx: 0,
+            vy: 0
+        });
+    }
+
+    p.cells.push(cell);
     players.set(id, p);
     return p;
+}
+
+export function createVertices(cell) {
+    const NUM_VERTICES = 32
+    const angleStep = (Math.PI * 2) / NUM_VERTICES;
+    const vertices = [];
+    for (let i = 0; i < NUM_VERTICES; i++) {
+        const angle = i * angleStep;
+        vertices.push({
+            angle,
+            r: cell.r,
+            x: cell.x + Math.cos(angle) * cell.r,
+            y: cell.y + Math.sin(angle) * cell.r,
+            vx: 0,
+            vy: 0
+        });
+    }
+    return vertices;
 }
 
 export function populate() {

@@ -58,8 +58,12 @@ export function draw() {
 
         for (const c of p.cells) {
             ctx.beginPath();
-            ctx.arc(c.x, c.y, c.r, 0, TAU);
-
+            const verts = c.vertices;
+            if (verts.length > 0) {
+                ctx.moveTo(verts[0].x, verts[0].y);
+                for (let i = 1; i < verts.length; i++) ctx.lineTo(verts[i].x, verts[i].y);
+                ctx.closePath();
+            }
             ctx.fillStyle = p.color;
             ctx.fill();
 
